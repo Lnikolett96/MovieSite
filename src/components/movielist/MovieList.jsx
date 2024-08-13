@@ -1,9 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./MovieList.css";
 import Fire from "../../assets/fire.png";
 import MovieCard from "./MovieCard";
+import FilterGroup from "./FilterGroup";
 
 const MovieList = () => {
+  const [movies, setMovies] = useState([]);
+  const [filterMovies, setFilterMovies] = useState();
+  const [minRating, setMinRating] = useState(0);
+  useEffect(() => {
+    fetchMovies();
+  }, []);
+
+  const fetchMovies = async () => {
+    const response = await fetch(
+      "https://api.themoviedb.org/3/movie/popular?api_key=4ebb8b387e16ffe5af060a0e66807281#"
+    );
+    const data = await response.json();
+    setMovies(data.results);
+    setFilterMovies(data.results);
+
+  };
+
+  const handleFilter = (rate) => {
+    if (rate === minRating) {
+      setMinRating(0);
+      setFilterMovies(movies);
+    } else {
+      setMinRating(rate);
+
+      const filtered_array = movies.filter(
+        (movie) => movie.vote_average >= rate
+      );
+      setFilterMovies(filtered_array);
+    }
+  };
+
   return (
     <section className="movie_list">
       <header className="align_center movie_list_header">
@@ -11,30 +43,25 @@ const MovieList = () => {
           Popular <img className="navbar_emoji" src={Fire} alt="fire emoji" />{" "}
         </h2>
         <div className="align_center movie_list_fs">
-
-          <ul className="align_center movie_filter">
-            <li className="movie_filter_item active">8+ star</li>
-            <li className="movie_filter_item">7+ star</li>
-            <li className="movie_filter_item">6+ star</li>
-          </ul>
+          <FilterGroup minRating={minRating} onRatingClick={handleFilter} ratings={[8,7,6]} />
 
           <select name="" id="" className="movie_sorting">
             <option value="">SortBy</option>
             <option value="">Date</option>
             <option value="">Rating</option>
           </select>
-        
-        
+
           <select name="" id="" className="movie_sorting">
             <option value="">Ascending</option>
             <option value="">Descending </option>
           </select>
-        
         </div>
       </header>
 
       <div className="movie_cards">
-        <MovieCard />
+        {filterMovies && filterMovies.map((movie) => (
+          <MovieCard key={movie.id} movie={movie} />
+        ))}
       </div>
     </section>
   );
