@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import _ from 'lodash'
 
 import "./MovieList.css";
-import Fire from "../../assets/fire.png";
 import MovieCard from "./MovieCard";
 import FilterGroup from "./FilterGroup";
 
 
-const MovieList = () => {
+const MovieList = ( {type, title, emoji} ) => {
 
   const [movies, setMovies] = useState([]);
   const [filterMovies, setFilterMovies] = useState();
@@ -31,7 +30,7 @@ const MovieList = () => {
 
   const fetchMovies = async () => {
     const response = await fetch(
-      "https://api.themoviedb.org/3/movie/popular?api_key=4ebb8b387e16ffe5af060a0e66807281#"
+      `https://api.themoviedb.org/3/movie/${type}?api_key=4ebb8b387e16ffe5af060a0e66807281#`
     );
     const data = await response.json();
     setMovies(data.results);
@@ -59,10 +58,10 @@ const MovieList = () => {
   };
 
   return (
-    <section className="movie_list">
+    <section className="movie_list" id={type}>
       <header className="align_center movie_list_header">
         <h2 className="align_center movie_list_heading">
-          Popular <img className="navbar_emoji" src={Fire} alt="fire emoji" />{" "}
+          {title} <img className="navbar_emoji" src={emoji} alt={`${emoji} icon`} />{" "}
         </h2>
         <div className="align_center movie_list_fs">
           <FilterGroup

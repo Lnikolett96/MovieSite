@@ -12,9 +12,9 @@ const Navbar = () => {
 
         <div className='navbar_links'>
             <Darkmode />
-            <a href="">Popular <img className='navbar_emoji' src={Fire} alt="fire emoji" /> </a>
-            <a href="">Top Rated <img className='navbar_emoji' src={Star} alt="star emoji" /> </a>
-            <a href="">Upcoming <img className='navbar_emoji' src={Party} alt="party emoji" /> </a>
+            <a href="#popular">Popular <img className='navbar_emoji' src={Fire} alt="fire emoji" /> </a>
+            <a href="#top_rated">Top Rated <img className='navbar_emoji' src={Star} alt="star emoji" /> </a>
+            <a href="#upcoming">Upcoming <img className='navbar_emoji' src={Party} alt="party emoji" /> </a>
         </div>
     </nav>
   )
