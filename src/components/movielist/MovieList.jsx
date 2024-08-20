@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
+import _ from 'lodash'
+
 import "./MovieList.css";
 import Fire from "../../assets/fire.png";
 import MovieCard from "./MovieCard";
 import FilterGroup from "./FilterGroup";
 
+
 const MovieList = () => {
+
   const [movies, setMovies] = useState([]);
   const [filterMovies, setFilterMovies] = useState();
   const [minRating, setMinRating] = useState(0);
@@ -12,9 +16,18 @@ const MovieList = () => {
     by: "default",
     order: "asc",
   });
+
   useEffect(() => {
     fetchMovies();
   }, []);
+
+
+  useEffect(() => {
+    if (sort.by !== 'default') {
+      const sortedArrays = _.orderBy(filterMovies, [sort.by], [sort.order])
+      setFilterMovies(sortedArrays)
+    }
+  }, [sort])
 
   const fetchMovies = async () => {
     const response = await fetch(
