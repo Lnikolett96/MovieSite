@@ -18,7 +18,7 @@ const MovieList = ( {type, title, emoji} ) => {
 
   useEffect(() => {
     fetchMovies();
-  }, []);
+  }, [type]);
 
 
   useEffect(() => {
